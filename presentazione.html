@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScuolaHub · Presentazione</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ─── VARIABILI ─── */
+    :root {
+      --primary:       #4361ee;
+      --primary-dark:  #3a53d4;
+      --primary-light: #eef0fd;
+      --accent:        #06d6a0;
+      --warn:          #f4a261;
+      --danger:        #e63946;
+      --bg:            #ffffff;
+      --text:          #1e293b;
+      --muted:         #64748b;
+      --border:        #e2e8f0;
+      --card-bg:       #f9fafb;
+      --radius:        14px;
+      --radius-lg:     20px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f1117;
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ─── DECK WRAPPER ─── */
+    .deck {
+      width: min(960px, 100vw);
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 32px 80px rgba(0,0,0,.6);
+    }
+
+    /* ─── SLIDE BASE ─── */
+    .slide {
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s ease;
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ─── HEADER BAND ─── */
+    .slide-header {
+      background: var(--primary);
+      padding: 0 44px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .slide-header .brand {
+      font-size: .85rem;
+      font-weight: 700;
+      color: rgba(255,255,255,.7);
+      letter-spacing: .04em;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .slide-header .brand i { font-size: .8rem; }
+    .slide-header .slide-label {
+      margin-left: auto;
+      font-size: .72rem;
+      color: rgba(255,255,255,.5);
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    /* ─── CONTENT AREA ─── */
+    .slide-body {
+      flex: 1;
+      padding: 0 44px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ─── FOOTER ─── */
+    .slide-footer {
+      height: 36px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 44px;
+      flex-shrink: 0;
+    }
+    .slide-footer .ft-left  { font-size: .65rem; color: var(--muted); }
+    .slide-footer .ft-right { margin-left: auto; font-size: .65rem; color: var(--muted); font-weight: 600; }
+
+    /* ════════════════════════════════
+       SLIDE 1 — TITOLO
+    ════════════════════════════════ */
+    #s1 .slide-header { height: 56px; }
+    #s1 .slide-body {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 0;
+    }
+    .title-logo {
+      width: 72px;
+      height: 72px;
+      background: var(--primary);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #fff;
+      box-shadow: 0 8px 28px rgba(67,97,238,.35);
+      margin-bottom: 22px;
+    }
+    .title-main {
+      font-size: 3.2rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -.02em;
+      line-height: 1;
+    }
+    .title-main span { color: var(--primary); }
+    .title-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-top: 10px;
+      font-weight: 400;
+      max-width: 500px;
+    }
+    .title-divider {
+      width: 56px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+      margin: 22px auto;
+    }
+    .title-authors {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .author-chip {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(67,97,238,.2);
+    }
+    .title-school {
+      margin-top: 18px;
+      font-size: .76rem;
+      color: var(--muted);
+    }
+
+    /* ════════════════════════════════
+       SLIDE 2 — TEAM / RUOLI
+    ════════════════════════════════ */
+    #s2 .slide-header { height: 48px; }
+    #s2 .slide-body { justify-content: center; gap: 20px; }
+
+    .section-title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -.015em;
+    }
+    .section-title span { color: var(--primary); }
+    .section-sub {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .role-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    .role-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--primary);
+    }
+    .role-card.c2::before { background: var(--accent); }
+    .role-card.c3::before { background: var(--warn); }
+    .role-card.c4::before { background: var(--danger); }
+
+    .role-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+    .role-card.c2 .role-icon { background: #e8fdf6; color: #06d6a0; }
+    .role-card.c3 .role-icon { background: #fff5e0; color: #d4590a; }
+    .role-card.c4 .role-icon { background: #ffeef0; color: #e63946; }
+
+    .role-name {
+      font-size: .78rem;
+      font-weight: 800;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .role-person {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .role-card.c2 .role-person { color: #06a87e; }
+    .role-card.c3 .role-person { color: #b84a08; }
+    .role-card.c4 .role-person { color: #c0002b; }
+
+    .role-desc {
+      font-size: .72rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    /* ════════════════════════════════
+       SLIDE 3 — IL PROBLEMA
+    ════════════════════════════════ */
+    #s3 .slide-header { height: 48px; }
+    #s3 .slide-body { justify-content: center; gap: 18px; }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .problem-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+    }
+    .problem-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: #ffeef0;
+      color: var(--danger);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .problem-item h4 { font-size: .84rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .problem-item p  { font-size: .75rem; color: var(--muted); line-height: 1.45; }
+
+    /* ════════════════════════════════
+       SLIDE 4 — LA SOLUZIONE
+    ════════════════════════════════ */
+    #s4 .slide-header { height: 48px; }
+    #s4 .slide-body { justify-content: center; gap: 16px; }
+
+    .solution-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+    .solution-visual {
+      background: var(--primary);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .fake-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.2);
+    }
+    .fake-logo { width: 26px; height: 26px; background: rgba(255,255,255,.25); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: .7rem; color:#fff; }
+    .fake-brand { font-size: .8rem; font-weight: 700; color: #fff; }
+    .fake-msg {
+      font-size: .72rem;
+      color: rgba(255,255,255,.85);
+      background: rgba(255,255,255,.15);
+      border-radius: 10px 10px 10px 3px;
+      padding: 8px 12px;
+      max-width: 85%;
+      line-height: 1.45;
+    }
+    .fake-msg.user {
+      background: rgba(255,255,255,.3);
+      align-self: flex-end;
+      border-radius: 10px 10px 3px 10px;
+      color: #fff;
+    }
+    .fake-input {
+      background: rgba(255,255,255,.2);
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-size: .7rem;
+      color: rgba(255,255,255,.6);
+      margin-top: 4px;
+    }
+
+    .solution-points { display: flex; flex-direction: column; gap: 12px; }
+    .sol-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--radius);
+    }
+    .sol-point i { color: var(--primary); font-size: 1rem; margin-top: 2px; flex-shrink: 0; }
+    .sol-point div h4 { font-size: .82rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .sol-point div p  { font-size: .74rem; color: var(--muted); }
+
+    /* ════════════════════════════════
+       SLIDE 5 — FUNZIONALITÀ
+    ════════════════════════════════ */
+    #s5 .slide-header { height: 48px; }
+    #s5 .slide-body { justify-content: center; gap: 16px; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .feat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .feat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+    }
+    .feat-card:nth-child(2) .feat-icon { background: #e8fdf6; color: #06a87e; }
+    .feat-card:nth-child(3) .feat-icon { background: #fff5e0; color: #b84a08; }
+    .feat-card:nth-child(4) .feat-icon { background: #ffeef0; color: #c0002b; }
+    .feat-card:nth-child(5) .feat-icon { background: #f0f4ff; color: #5669c3; }
+    .feat-card:nth-child(6) .feat-icon { background: #faf0ff; color: #9b59b6; }
+    .feat-card h4 { font-size: .82rem; font-weight: 700; color: var(--text); }
+    .feat-card p  { font-size: .72rem; color: var(--muted); line-height: 1.45; }
+    .feat-example {
+      font-size: .68rem;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-style: italic;
+      font-weight: 500;
+      margin-top: auto;
+    }
+
+    /* ════════════════════════════════
+       SLIDE 6 — COME FUNZIONA (NLP)
+    ════════════════════════════════ */
+    #s6 .slide-header { height: 48px; }
+    #s6 .slide-body { justify-content: center; gap: 16px; }
+
+    .flow-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: nowrap;
+    }
+    .flow-step {
+      flex: 1;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .flow-num {
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      font-size: .78rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .flow-step i { font-size: 1.3rem; color: var(--primary); }
+    .flow-step h4 { font-size: .8rem; font-weight: 700; color: var(--text); }
+    .flow-step p  { font-size: .7rem; color: var(--muted); line-height: 1.4; }
+    .flow-arrow { color: var(--border); font-size: 1.2rem; flex-shrink: 0; }
+
+    .nlp-note {
+      background: var(--primary-light);
+      border: 1px solid rgba(67,97,238,.2);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-size: .78rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nlp-note i { font-size: 1rem; flex-shrink: 0; }
+
+    /* ════════════════════════════════
+       SLIDE 7 — I DATI
+    ════════════════════════════════ */
+    #s7 .slide-header { height: 48px; }
+    #s7 .slide-body { justify-content: center; gap: 16px; }
+
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .data-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .data-card.c2 { border-left-color: var(--accent); }
+    .data-card.c3 { border-left-color: var(--warn); }
+    .data-count {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .data-card.c2 .data-count { color: #06a87e; }
+    .data-card.c3 .data-count { color: #b84a08; }
+    .data-card h4 { font-size: .86rem; font-weight: 700; color: var(--text); }
+    .data-card p  { font-size: .74rem; color: var(--muted); line-height: 1.5; }
+    .data-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 4px; }
+    .data-tag {
+      font-size: .64rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .data-card.c2 .data-tag { background: #e8fdf6; color: #06a87e; }
+    .data-card.c3 .data-tag { background: #fff5e0; color: #b84a08; }
+
+    /* ════════════════════════════════
+       SLIDE 8 — TECNOLOGIE
+    ════════════════════════════════ */
+    #s8 .slide-header { height: 48px; }
+    #s8 .slide-body { justify-content: center; gap: 16px; }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .tech-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 13px 16px;
+    }
+    .tech-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      background: #fff5e0;
+      color: #b84a08;
+    }
+    .tech-badge.html { background: #ffeef0; color: #c0002b; }
+    .tech-badge.css  { background: #eef3ff; color: var(--primary); }
+    .tech-badge.js   { background: #fffbe0; color: #b8a000; }
+    .tech-badge.json { background: #e8fdf6; color: #06a87e; }
+    .tech-item h4 { font-size: .84rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .tech-item p  { font-size: .73rem; color: var(--muted); }
+
+    .tech-plus {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 10px;
+    }
+    .tech-pill {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: .76rem;
+      font-weight: 600;
+      border: 1px solid rgba(67,97,238,.2);
+    }
+
+    /* ════════════════════════════════
+       SLIDE 9 — RISULTATI / MVP
+    ════════════════════════════════ */
+    #s9 .slide-header { height: 48px; }
+    #s9 .slide-body { justify-content: center; gap: 16px; }
+
+    .mvp-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .mvp-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+    }
+    .check-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: #e8fdf6;
+      color: #06a87e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      flex-shrink: 0;
+    }
+    .mvp-item h4 { font-size: .82rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .mvp-item p  { font-size: .73rem; color: var(--muted); line-height: 1.4; }
+
+    .mvp-highlight {
+      background: var(--primary);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: .82rem;
+    }
+    .mvp-highlight i { font-size: 1.2rem; opacity: .85; flex-shrink: 0; }
+    .mvp-highlight strong { display: block; font-size: .9rem; margin-bottom: 3px; }
+
+    /* ════════════════════════════════
+       SLIDE 10 — GRAZIE
+    ════════════════════════════════ */
+    #s10 .slide-header { height: 56px; }
+    #s10 .slide-body {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 0;
+    }
+    .thanks-logo {
+      width: 80px;
+      height: 80px;
+      background: var(--primary);
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.3rem;
+      color: #fff;
+      box-shadow: 0 10px 32px rgba(67,97,238,.35);
+      margin-bottom: 24px;
+    }
+    .thanks-main {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+    .thanks-main span { color: var(--primary); }
+    .thanks-sub {
+      font-size: .95rem;
+      color: var(--muted);
+      margin-top: 12px;
+      max-width: 420px;
+    }
+    .thanks-divider {
+      width: 56px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+      margin: 22px auto;
+    }
+    .thanks-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid rgba(67,97,238,.2);
+      border-radius: 20px;
+      padding: 7px 18px;
+      font-size: .82rem;
+      font-weight: 600;
+    }
+
+    /* ════════════════════════════════
+       CONTROLLI NAV
+    ════════════════════════════════ */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .nav-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,.2);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all .2s;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.4); }
+    .nav-btn:disabled { opacity: .3; cursor: default; }
+
+    .slide-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.3);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .dot.active { background: var(--primary); transform: scale(1.3); }
+
+    .slide-counter {
+      font-size: .75rem;
+      color: rgba(255,255,255,.5);
+      font-weight: 600;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    /* fullscreen hint */
+    .fullscreen-hint {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      font-size: .62rem;
+      color: rgba(255,255,255,.3);
+    }
+  </style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- ══ SLIDE 1 — TITOLO ══ -->
+  <div class="slide active" id="s1">
+    <div class="slide-header" style="height:56px">
+      <div class="brand"><i class="fas fa-graduation-cap"></i> ScuolaHub</div>
+    </div>
+    <div class="slide-body">
+      <div class="title-logo"><i class="fas fa-graduation-cap"></i></div>
+      <div class="title-main">Scuola<span>Hub</span></div>
+      <div class="title-sub">Assistente scolastico conversazionale per l'ITE Blaise Pascal di Foggia</div>
+      <div class="title-divider"></div>
+      <div class="title-authors">
+        <span class="author-chip">Botta Giovanni</span>
+        <span class="author-chip">Ciccone Michele Pio</span>
+        <span class="author-chip">Simone Paolo</span>
+        <span class="author-chip">Inneo Gabriella Pia</span>
+      </div>
+      <div class="title-school">ITE Blaise Pascal Foggia · A.S. 2025/2026</div>
+    </div>
+    <div class="slide-footer">
+      <span class="ft-left">Progetto MVP — Tecnologie Web</span>
+      <span class="ft-right">1 / 10</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 2 — RUOLI ══ -->
+  <div class="slide" id="s2">
+    <div class="slide-header" style="height:48px">
+      <div class="brand"><i class="fas fa-graduation-cap"></i> ScuolaHub</div>
+      <span class="slide-label">Il Team</span>
+    </div>
+    <div class="slide-body">
+      <div>
+        <div class="section-title">Il <span>Team</span></div>
+        <div class="section-sub">I quattro ruoli del progetto</div>
+      </div>
+      <div class="roles-grid">
+        <div class="role-card">
+          <div class="role-icon"><i class="fas fa-layer-group"></i></div>
+          <div class="role-name">Team Lead</div>
+          <div class="role-person">Botta Giovanni</div>
+          <div class="role-desc">Coordinamento del team, pianificazione delle attività e gestione delle scadenze di progetto</div>
+        </div>
+        <div class="role-card c2">
+          <div class="role-icon"><i class="fas fa-palette"></i></div>
+          <div class="role-name">Frontend Owner</div>
+          <div class="role-person">Ciccone Michele Pio</div>
+          <div class="role-desc">Progettazione e sviluppo dell'interfaccia chat, stili CSS, dark mode e componenti UI</div>
+        </div>
+        <div class="role-card c3">
+          <div class="role-icon"><i class="fas fa-code"></i></div>
+          <div class="role-name">JS Logic Owner</div>
+          <div class="role-person">Simone Paolo</div>
+          <div class="role-desc">Motore NLP, pattern matching, gestione dei dati JSON e logica delle risposte del bot</div>
+        </div>
+        <div class="role-card c4">
+          <div class="role-icon"><i class="fas fa-clipboard-check"></i></div>
+          <div class="role-name">QA &amp; DOC</div>
+          <div class="role-person">Inneo Gabriella Pia</div>
+          <div class="role-desc">Testing, verifica delle funzionalità, documentazione tecnica e analisi dei requisiti</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span class="ft-left">ITE Blaise Pascal Foggia · A.S. 2025/2026</span>
+      <span class="ft-right">2 / 10</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 3 — IL PROBLEMA ══ -->
+  <div class="slide" id="s3">
+    <div class="slide-header" style="height:48px">
+      <div class="brand"><i class="fas fa-graduation-cap"></i> ScuolaHub</div>
+      <span class="slide-label">Il Problema</span>
+    </div>
+    <div class="slide-body">
+      <div>
+        <div class="section-title">Il <span>Problema</span></div>
+        <div class="section-sub">Information overload nelle scuole italiane</div>
+      </div>
+      <div class="problem-grid">
+        <div class="problem-item">
+          <div class="problem-icon"><i class="fas fa-layer-group"></i></div>
+          <div>
+            <h4>Canali frammentati</h4>
+            <p>Circolari su bacheche, email, app del registro, WhatsApp, sito web: troppe fonti per la stessa informazione.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon"><i class="fas fa-search"></i></div>
+          <div>
+            <h4>Ricerca difficile</h4>
+            <p>Trovare una circolare di tre mesi fa richiede ore di navigazione tra sezioni e archivi non standardizzati.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon"><i class="fas fa-bell-slash"></i></div>
+          <div>
+            <h4>Notifiche inaffidabili</h4>
+            <p>Comunicazioni urgenti si perdono nel rumore: stessa visibilità per un avviso di maturità e per uno di ordinaria amministrazione.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon"><i class="fas fa-clock"></i></div>
+          <div>
+            <h4>Tempo sprecato</h4>
+            <p>Studenti, docenti e famiglie perdono informazioni critiche non per mancanza di comunicazione, ma per eccesso e dispersione.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span class="ft-left">ITE Blaise Pascal Foggia · A.S. 2025/2026</span>
+      <span class="ft-right">3 / 10</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 4 — LA SOLUZIONE ══ -->
+  <div class="slide" id="s4">
+    <div class="slide-header" style="height:48px">
+      <div class="brand"><i class="fas fa-graduation-cap"></i> ScuolaHub</div>
+      <span class="slide-label">La Soluzione</span>
+    </div>
+    <div class="slide-body">
+      <div>
+        <div class="section-title">La <span>Soluzione</span></div>
+        <div class="section-sub">Un assistente conversazionale che risponde in linguaggio naturale</div>
+      </div>
+      <div class="solution-row">
+        <div class="solution-visual">
+          <div class="fake-header">
+            <div class="fake-logo"><i class="fas fa-graduation-cap"></i></div>
+            <div class="fake-brand">ScuolaHub</div>
+          </div>
+          <div class="fake-msg user">Quando è l'assemblea d'istituto?</div>
+          <div class="fake-msg">📅 L'assemblea d'istituto si terrà il <strong>15 maggio 2026</strong> alle ore 09:00 presso l'Auditorium.</div>
+          <div class="fake-msg user">Dimmi la circolare sul PCTO</div>
+          <div class="fake-msg">Ho trovato la circolare 040/2026 sul Progetto PCTO per le classi quarte. Ecco i dettagli…</div>
+          <div class="fake-input">Scrivi una domanda…</div>
+        </div>
+        <div class="solution-points">
+          <div class="sol-point">
+            <i class="fas fa-comment-dots"></i>
+            <div>
+              <h4>Linguaggio naturale</h4>
+              <p>Niente menu o filtri — l'utente scrive una domanda come la scriverebbe a una persona.</p>
+            </div>
+          </div>
+          <div class="sol-point">
+            <i class="fas fa-bolt"></i>
+            <div>
+              <h4>Risposta immediata</h4>
+              <p>Il bot analizza circolari, materiali ed eventi e risponde in tempo reale.</p>
+            </div>
+          </div>
+          <div class="sol-point">
+            <i class="fas fa-puzzle-piece"></i>
+            <div>
+              <h4>Zero dipendenze</h4>
+              <p>Solo HTML, CSS e JavaScript. Funziona offline, nessun server richiesto.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span class="ft-left">ITE Blaise Pascal Foggia · A.S. 2025/2026</span>
+      <span class="ft-right">4 / 10</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 5 — FUNZIONALITÀ ══ -->
+  <div class="slide" id="s5">
+    <div class="slide-header" style="height:48px">
+      <div class="brand"><i class="fas fa-graduation-cap"></i> ScuolaHub</div>
+      <span class="slide-label">Funzionalità</span>
+    </div>
+    <div class="slide-body">
+      <div>
+        <div class="section-title">Cosa sa fare <span>ScuolaHub</span></div>
+        <div class="section-sub">Sei categorie di domande supportate</div>
+      </div>
+      <div class="features-grid">
+        <div class="feat-card">
+          <div class="feat-icon"><i class="fas fa-file-alt"></i></div>
+          <h4>Circolari per argomento</h4>
+          <p>Trova e legge una circolare in base all'argomento o al numero progressivo.</p>
+          <div class="feat-example">"circolare sul PCTO"</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><i class="fas fa-calendar-check"></i></div>
+          <h4>Date ed eventi</h4>
+          <p>Risponde in prosa quando si svolge un evento: data, ora e luogo.</p>
+          <div class="feat-example">"quando è l'assemblea?"</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><i class="fas fa-book-open"></i></div>
+          <h4>Materiali didattici</h4>
+          <p>Cerca dispense, schemi e presentazioni per materia e/o classe.</p>
+          <div class="feat-example">"matematica per la 5A"</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+          <h4>Docenti per materia</h4>
+          <p>Identifica chi insegna una materia dai materiali caricati nel sistema.</p>
+          <div class="feat-example">"chi insegna fisica?"</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><i class="fas fa-graduation-cap"></i></div>
+          <h4>Gite e uscite</h4>
+          <p>Trova le circolari relative a gite, visite culturali e attività esterne.</p>
+          <div class="feat-example">"gita Roma classe 3A"</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><i class="fas fa-search"></i></div>
+          <h4>Ricerca full-text</h4>
+          <p>Cerca su circolari, materiali ed eventi contemporaneamente con un'unica query.</p>
+          <div class="feat-example">"Kangourou"</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span class="ft-left">ITE Blaise Pascal Foggia · A.S. 2025/2026</span>
+      <span class="ft-right">5 / 10</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 6 — COME FUNZIONA ══ -->
+  <div class="slide" id="s6">
+    <div class="slide-header" style="height:48px">
+      <div class="brand"><i class="fas fa-graduation-cap"></i> ScuolaHub</div>
+      <span class="slide-label">Architettura</span>
+    </div>
+    <div class="slide-body">
+      <div>
+        <div class="section-title">Come <span>Funziona</span></div>
+        <div class="section-sub">Il motore NLP pattern-based</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <i class="fas fa-keyboard"></i>
+          <h4>Input utente</h4>
+          <p>L'utente scrive una domanda in linguaggio libero</p>
+        </div>
+        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <i class="fas fa-brain"></i>
+          <h4>NLP pattern</h4>
+          <p>Regex ed euristica riconoscono l'intenzione (circolare, evento, materia…)</p>
+        </div>
+        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <i class="fas fa-database"></i>
+          <h4>Query dati</h4>
+          <p>Il motore interroga circolari.json, materiali.json, eventi.json</p>
+        </div>
+        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <i class="fas fa-comment-alt"></i>
+          <h4>Risposta</h4>
+          <p>Il bot genera HTML ricco: card, date, allegati, autori</p>
+        </div>
+      </div>
+      <div class="nlp-note">
+        <i class="fas fa-info-circle"></i>
+        <span>Tutto il riconoscimento avviene lato client — nessuna chiamata a server esterni o API di intelligenza artificiale. Il bot funziona completamente offline.</span>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span class="ft-left">ITE Blaise Pascal Foggia · A.S. 2025/2026</span>
+      <span class="ft-right">6 / 10</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 7 — I DATI ══ -->
+  <div class="slide" id="s7">
+    <div class="slide-header" style="height:48px">
+      <div class="brand"><i class="fas fa-graduation-cap"></i> ScuolaHub</div>
+      <span class="slide-label">I Dati</span>
+    </div>
+    <div class="slide-body">
+      <div>
+        <div class="section-title">La <span>Base Dati</span></div>
+        <div class="section-sub">Tre archivi JSON che alimentano il chatbot</div>
+      </div>
+      <div class="data-grid">
+        <div class="data-card">
+          <div class="data-count">15+</div>
+          <h4>Circolari scolastiche</h4>
+          <p>Comunicazioni ufficiali con testo completo, autore, destinatari, categoria e allegati. Sistema di priorità alta / media / bassa.</p>
+          <div class="data-tags">
+            <span class="data-tag">eventi</span>
+            <span class="data-tag">didattica</span>
+            <span class="data-tag">comunicazione</span>
+            <span class="data-tag">urgente</span>
+          </div>
+        </div>
+        <div class="data-card c2">
+          <div class="data-count">12+</div>
+          <h4>Materiali didattici</h4>
+          <p>Dispense, schemi, presentazioni e raccolta esercizi. Organizzati per materia, classe, autore e formato file.</p>
+          <div class="data-tags">
+            <span class="data-tag">PDF</span>
+            <span class="data-tag">PPTX</span>
+            <span class="data-tag">Word</span>
+          </div>
+        </div>
+        <div class="data-card c3">
+          <div class="data-count">15+</div>
+          <h4>Eventi del calendario</h4>
+          <p>Assemblee, gite, scrutini, esami di Stato, consigli di classe e festività con data, ora e luogo.</p>
+          <div class="data-tags">
+            <span class="data-tag">evento</span>
+            <span class="data-tag">riunione</span>
+            <span class="data-tag">scadenza</span>
+            <span class="data-tag">uscita</span>
+          </div>
+        </div>
+      </div>
+      <div class="nlp-note" style="background:#fff5e0;border-color:rgba(180,100,0,.2);color:#b84a08">
+        <i class="fas fa-shield-alt"></i>
+        <span>I dati sono embedded nel file <strong>api.js</strong> come fallback. Il sistema funziona anche senza server HTTP — basta aprire <strong>index.html</strong> nel browser.</span>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span class="ft-left">ITE Blaise Pascal Foggia · A.S. 2025/2026</span>
+      <span class="ft-right">7 / 10</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 8 — TECNOLOGIE ══ -->
+  <div class="slide" id="s8">
+    <div class="slide-header" style="height:48px">
+      <div class="brand"><i class="fas fa-graduation-cap"></i> ScuolaHub</div>
+      <span class="slide-label">Tecnologie</span>
+    </div>
+    <div class="slide-body">
+      <div>
+        <div class="section-title">Tecnologie <span>Utilizzate</span></div>
+        <div class="section-sub">Stack web puro — nessun framework, nessun build tool</div>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <div class="tech-badge html">HTML</div>
+          <div>
+            <h4>HTML5 Semantico</h4>
+            <p>Struttura della pagina, accessibilità con aria-live e aria-label per screen reader.</p>
+          </div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-badge css">CSS</div>
+          <div>
+            <h4>CSS3 + Custom Properties</h4>
+            <p>Tema chiaro/scuro con variabili, animazioni e layout responsive.</p>
+          </div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-badge js">JS</div>
+          <div>
+            <h4>JavaScript ES6+</h4>
+            <p>NLP pattern-based, async/await per il fetch dati, localStorage per le preferenze.</p>
+          </div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-badge json">JSON</div>
+          <div>
+            <h4>JSON Data Files</h4>
+            <p>Tre archivi strutturati per circolari, materiali ed eventi con fallback embedded.</p>
+          </div>
+        </div>
+        <div class="tech-plus">
+          <span class="tech-pill"><i class="fas fa-icons" style="margin-right:5px"></i>Font Awesome 6</span>
+          <span class="tech-pill"><i class="fas fa-moon" style="margin-right:5px"></i>Dark Mode</span>
+          <span class="tech-pill"><i class="fas fa-mobile-alt" style="margin-right:5px"></i>Responsive</span>
+          <span class="tech-pill"><i class="fas fa-wifi-slash" style="margin-right:5px"></i>Offline-ready</span>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span class="ft-left">ITE Blaise Pascal Foggia · A.S. 2025/2026</span>
+      <span class="ft-right">8 / 10</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 9 — RISULTATI MVP ══ -->
+  <div class="slide" id="s9">
+    <div class="slide-header" style="height:48px">
+      <div class="brand"><i class="fas fa-graduation-cap"></i> ScuolaHub</div>
+      <span class="slide-label">Risultati</span>
+    </div>
+    <div class="slide-body">
+      <div>
+        <div class="section-title">Risultati <span>MVP</span></div>
+        <div class="section-sub">Obiettivi raggiunti nella versione attuale</div>
+      </div>
+      <div class="mvp-grid">
+        <div class="mvp-item">
+          <div class="check-icon"><i class="fas fa-check"></i></div>
+          <div>
+            <h4>Interfaccia conversazionale</h4>
+            <p>Chat in linguaggio naturale ispirata a ChatGPT, con typing indicator e animazioni fluide.</p>
+          </div>
+        </div>
+        <div class="mvp-item">
+          <div class="check-icon"><i class="fas fa-check"></i></div>
+          <div>
+            <h4>NLP multi-intenzione</h4>
+            <p>Riconosce oltre 15 pattern diversi: circolari, eventi, materiali, docenti, gite e ricerca generica.</p>
+          </div>
+        </div>
+        <div class="mvp-item">
+          <div class="check-icon"><i class="fas fa-check"></i></div>
+          <div>
+            <h4>Dark mode e responsive</h4>
+            <p>Tema chiaro/scuro con un click, interfaccia adattiva per smartphone, tablet e desktop.</p>
+          </div>
+        </div>
+        <div class="mvp-item">
+          <div class="check-icon"><i class="fas fa-check"></i></div>
+          <div>
+            <h4>Dati strutturati e ricchi</h4>
+            <p>Risposte con card visive, priorità colorate, tag, allegati e formattazione contestuale.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mvp-highlight">
+        <i class="fas fa-rocket"></i>
+        <div>
+          <strong>Completamente indipendente</strong>
+          Nessun server, nessuna API esterna, nessun database remoto. Funziona aprendo un solo file HTML nel browser.
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span class="ft-left">ITE Blaise Pascal Foggia · A.S. 2025/2026</span>
+      <span class="ft-right">9 / 10</span>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 10 — GRAZIE ══ -->
+  <div class="slide" id="s10">
+    <div class="slide-header" style="height:56px">
+      <div class="brand"><i class="fas fa-graduation-cap"></i> ScuolaHub</div>
+    </div>
+    <div class="slide-body">
+      <div class="thanks-logo"><i class="fas fa-graduation-cap"></i></div>
+      <div class="thanks-main">Grazie per<br><span>l'attenzione</span></div>
+      <div class="thanks-sub">ScuolaHub — ITE Blaise Pascal Foggia · A.S. 2025/2026</div>
+      <div class="thanks-divider"></div>
+      <div class="thanks-tag">
+        <i class="fas fa-code"></i>
+        Realizzato con HTML · CSS · JavaScript
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span class="ft-left">Progetto MVP — Tecnologie Web</span>
+      <span class="ft-right">10 / 10</span>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- ─── NAV ─── -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prev-btn" disabled title="Slide precedente">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <div class="slide-dots" id="dots"></div>
+  <button class="nav-btn" id="next-btn" title="Slide successiva">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+  <div class="slide-counter" id="counter">1 / 10</div>
+</div>
+
+<div class="fullscreen-hint">F per fullscreen · ← → per navigare</div>
+
+<script>
+  const TOTAL = 10;
+  let cur = 1;
+
+  const slides  = document.querySelectorAll('.slide');
+  const dotsEl  = document.getElementById('dots');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const counter = document.getElementById('counter');
+
+  /* Build dots */
+  for (let i = 1; i <= TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n) {
+    if (n < 1 || n > TOTAL) return;
+    slides[cur - 1].classList.remove('active');
+    dotsEl.children[cur - 1].classList.remove('active');
+    cur = n;
+    slides[cur - 1].classList.add('active');
+    dotsEl.children[cur - 1].classList.add('active');
+    prevBtn.disabled = cur === 1;
+    nextBtn.disabled = cur === TOTAL;
+    counter.textContent = `${cur} / ${TOTAL}`;
+  }
+
+  prevBtn.addEventListener('click', () => goTo(cur - 1));
+  nextBtn.addEventListener('click', () => goTo(cur + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(cur + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(cur - 1);
+    if (e.key === 'f' || e.key === 'F') {
+      if (!document.fullscreenElement) document.getElementById('deck').requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+</script>
+</body>
+</html>
