@@ -55,8 +55,6 @@ Quando condividi il progetto, includi **solo**:
 | `README.md` | Questa documentazione |
 | `analisi.md` | Analisi e progettazione del prodotto |
 
-**Non includere** la cartella `.claude/` (configurazione locale di sviluppo).
-
 ---
 
 ## Struttura del progetto
